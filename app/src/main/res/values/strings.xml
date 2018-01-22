@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">myapp2</string>
+    <string name="name">NAME</string>
+    <string name="login">LOGIN</string>
+    <string name="no_of_attempts_remaning">No Of Attempts Remaning</string>
+    <string name="password">PASSWORD</string>
+    <string name="voice_to_text">VOICE TO TEXT</string>
+    <string name="tap_on_mic_to_speak">Tap on mic to speak</string>
+    <string name="todo">TODO</string>
+    <string name="Password">Password</string>
+    <string name="Name">Name</string>
+    <string name="start_wifi">Start Wifi</string>
+    <string name="connect_to_appropriate_wifi_for_automation">Connect to appropriate Wifi for Automation</string>
+</resources>

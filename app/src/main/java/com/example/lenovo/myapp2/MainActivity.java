@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText Name;
+    private EditText Userid;
     private EditText Password;
     private TextView Info;
     private Button Login;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Name = (EditText)findViewById(R.id.etName);
+        Userid = (EditText)findViewById(R.id.Userid);
         Password = (EditText)findViewById(R.id.etPassword);
         Info = (TextView)findViewById(R.id.tvInfo);
         Login = (Button) findViewById(R.id.btnLogin);
@@ -33,24 +33,24 @@ public class MainActivity extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(Name.getText().toString(),Password.getText().toString());
+                validate(Userid.getText().toString(),Password.getText().toString());
             }
         });
     }
-    private void  validate(String userName,String userPassword) {
-        if ((userName.equals("Harshada")) && (userPassword.equals("1234"))) {
+    private void  validate(String Userid,String userPassword) {
+        if ((Userid.equals("Harshada")) && (userPassword.equals("1234"))) {
             Intent intent = new Intent(MainActivity.this, Second2Activity.class);
             startActivity(intent);
         } else {
-            if ((userName.equals("Karuna")) && (userPassword.equals("1234"))) {
+            if ((Userid.equals("Karuna")) && (userPassword.equals("1234"))) {
                 Intent intent = new Intent(MainActivity.this, Second2Activity.class);
                 startActivity(intent);
             } else {
-                if ((userName.equals("Dipika")) && (userPassword.equals("1234"))) {
+                if ((Userid.equals("Dipika")) && (userPassword.equals("1234"))) {
                     Intent intent = new Intent(MainActivity.this, Second2Activity.class);
                     startActivity(intent);
                 } else {
-                    if ((userName.equals("Punit")) && (userPassword.equals("1234"))) {
+                    if ((Userid.equals("Punit")) && (userPassword.equals("1234"))) {
                         Intent intent = new Intent(MainActivity.this, Second2Activity.class);
                         startActivity(intent);
                     } else {
@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intentWifi;
         intentWifi =  new Intent(Settings.ACTION_WIFI_SETTINGS);
         startActivity(intentWifi);
+    }
+    public void btnregister_onClick(View view){
+        Intent intentr;
+        intentr = new Intent(MainActivity.this, Register.class);
+        startActivity(intentr);
     }
 }
 

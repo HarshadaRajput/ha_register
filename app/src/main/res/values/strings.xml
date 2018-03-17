@@ -17,4 +17,6 @@
     <string name="lastname">LASTNAME</string>
 
     <string name="register">REGISTER</string>
+    <string name="Userid">Userid</string>
+    <string name="Register">REGISTER</string>
 </resources>

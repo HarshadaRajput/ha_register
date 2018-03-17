@@ -98,7 +98,7 @@ private void  validate(String Userid,String userPassword) {
         @Override
         protected String doInBackground(RequestBody... requestBodies) {
             try {
-                return MakeCall.post("http://192.168.88.2/batu/login.php", requestBodies[0], Register.class.getSimpleName());
+                return MakeCall.post("http://192.168.8.151/login.php", requestBodies[0], Register.class.getSimpleName());
             } catch (Exception e) {
                 e.printStackTrace();
 

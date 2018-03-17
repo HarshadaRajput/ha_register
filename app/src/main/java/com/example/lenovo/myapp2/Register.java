@@ -28,10 +28,10 @@ public class Register extends AppCompatActivity {
 
     private Button Register;
 
-    private static String url_create_product = "https://api.androidhive.info/android_connect/create_product.php";
+    /*private static String url_create_product = "https://api.androidhive.info/android_connect/create_product.php";
 
     // JSON Node names
-    private static final String TAG_SUCCESS = "success";
+    private static final String TAG_SUCCESS = "success";*/
 
 
     @Override
@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity {
         @Override
         protected String doInBackground(RequestBody... requestBodies) {
             try {
-                MakeCall.post("http://192.168.88.2/batu/register.php", requestBodies[0], Register.class.getSimpleName());
+                MakeCall.post("http://192.168.8.151/register.php", requestBodies[0], Register.class.getSimpleName());
             } catch (Exception e) {
                 e.printStackTrace();
 

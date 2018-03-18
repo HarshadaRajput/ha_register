@@ -1,114 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.example.lenovo.myapp2.Register">
 
     <EditText
         android:id="@+id/userid"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/nav_header_height"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/userid"
+        android:hint="@string/user_name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        android:maxLength="10"
+        android:textColor="@color/text_color_primary"
+        android:textColorHint="@color/text_color_ternary" />
 
     <EditText
         android:id="@+id/firstname"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/nav_header_height"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
         android:hint="@string/firstname"
+        android:imeOptions="actionNext"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userid"
-        app:layout_constraintVertical_bias="0.0" />
+        android:maxLength="40"
+        android:textColor="@color/text_color_primary"
+        android:textColorHint="@color/text_color_ternary" />
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
+        android:layout_width="@dimen/nav_header_height"
+        android:layout_height="wrap_content"
         android:hint="@string/email"
+        android:imeOptions="actionNext"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastname"
-        app:layout_constraintVertical_bias="0.053" />
+        android:maxLength="140"
+        android:textColor="@color/text_color_primary"
+        android:textColorHint="@color/text_color_ternary" />
 
     <EditText
         android:id="@+id/lastname"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/nav_header_height"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
         android:hint="@string/lastname"
+        android:imeOptions="actionNext"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstname"
-        app:layout_constraintVertical_bias="0.014" />
+        android:maxLength="40"
+        android:textColor="@color/text_color_primary"
+        android:textColorHint="@color/text_color_ternary" />
 
     <EditText
         android:id="@+id/passwd"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/nav_header_height"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:hint="@string/password"
+        android:imeOptions="actionDone"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0.061" />
+        android:maxLength="10"
+        android:textColor="@color/text_color_primary"
+        android:textColorHint="@color/text_color_ternary" />
 
     <Button
         android:id="@+id/btnregister"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/nav_header_height"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwd"
-        app:layout_constraintVertical_bias="0.422" />
+        android:textAllCaps="true"
+        android:textColorHint="@color/text_color_ternary" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,22 +1,21 @@
 <resources>
     <string name="app_name">myapp2</string>
     <string name="name">NAME</string>
-    <string name="login">LOGIN</string>
-    <string name="no_of_attempts_remaning">No Of Attempts Remaning</string>
-    <string name="password">PASSWORD</string>
+    <string name="login">Login</string>
+    <string name="attempts_remaining">Attempts Remaining</string>
     <string name="voice_to_text">VOICE TO TEXT</string>
     <string name="tap_on_mic_to_speak">Tap on mic to speak</string>
     <string name="todo">TODO</string>
-    <string name="Password">Password</string>
+    <string name="password">Password</string>
     <string name="Name">Name</string>
     <string name="start_wifi">Start Wifi</string>
     <string name="connect_to_appropriate_wifi_for_automation">Connect to appropriate Wifi for Automation</string>
-    <string name="userid">USERID</string>
-    <string name="firstname">FIRSTNAME</string>
-    <string name="email">EMAIL</string>
-    <string name="lastname">LASTNAME</string>
+    <!-- <string name="userid">Username</string>-->
+    <string name="firstname">First name</string>
+    <string name="email">Email</string>
+    <string name="lastname">Last name</string>
 
-    <string name="register">REGISTER</string>
-    <string name="Userid">Userid</string>
-    <string name="Register">REGISTER</string>
+    <string name="register">Register</string>
+    <string name="user_name">Username</string>
+    <string name="register_me">Register Me!</string>
 </resources>

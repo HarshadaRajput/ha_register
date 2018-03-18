@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by lenovo on 05-Jan-18.
  */
 
-public class Dictionary {
+class Dictionary {
     private static HashMap<String,Integer> dictionary(){
         HashMap<String,Integer> map = new HashMap<>();
 

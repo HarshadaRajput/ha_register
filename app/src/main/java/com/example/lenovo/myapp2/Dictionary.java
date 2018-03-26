@@ -12,7 +12,6 @@ class Dictionary {
 
         map.put("turn_all_on",1);
         map.put("turn_all_off",2);
-
         map.put("turn_light_on",3);
         map.put("turn_light_off",4);
         map.put("turn_orange_on",5);

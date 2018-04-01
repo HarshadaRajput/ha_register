@@ -67,7 +67,7 @@ public class Register extends AppCompatActivity {
         @Override
         protected String doInBackground(RequestBody... requestBodies) {
             try {
-                MakeCall.post("http://192.168.8.151/register.php", requestBodies[0], Register.class.getSimpleName());
+                MakeCall.post("re.php", requestBodies[0], Register.class.getSimpleName());
             } catch (Exception e) {
                 e.printStackTrace();
 

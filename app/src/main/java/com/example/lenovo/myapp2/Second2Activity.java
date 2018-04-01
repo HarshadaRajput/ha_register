@@ -25,6 +25,7 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second2);
+
         resultTEXT = (TextView) findViewById(R.id.TVresult2);
 
         recordButton = (AppCompatImageView) findViewById(R.id.imageButton);

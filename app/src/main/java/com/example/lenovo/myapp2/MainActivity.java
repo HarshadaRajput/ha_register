@@ -3,6 +3,7 @@ package com.example.lenovo.myapp2;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         userIdBox.setText("girish");
-        passwordBox.setText("Test@1234");
+        passwordBox.setText("123456");
 
         //Shared preferences to save data
         HomePreferences.initialize(getApplicationContext());
@@ -113,9 +114,9 @@ private void  validate(String Userid,String userPassword) {
         protected Integer doInBackground(RequestBody... requestBodies) {
             try {
                 //http://10.4.0.152/ha/login.php?user_name=girish12345&password=Test@1234
-                //{"login":[{"user_id":"3","name":"girish","email":"girish1234@gmail.com","message":"Login Successfully.","status":1}]}
+                //{"login":[{"userid":"2","name":"Girish Mane","email":"girish@gmail.com","message":"Login Successfully.","status":1}]}
                 //{"login":[{"message":"Wrong user name password.","status":2}]}
-                String response = MakeCall.post("/login.php", requestBodies[0], Register.class.getSimpleName());
+                String response = MakeCall.post("lo.php", requestBodies[0], Register.class.getSimpleName());
                 if (response != null) {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.has("login")) {
@@ -125,7 +126,7 @@ private void  validate(String Userid,String userPassword) {
                             if (object.has("status")) {
                                 int status = object.getInt("status");
                                 if (status == 1) {
-                                    HomePreferences.save("user_id", object.getString("user_id"));
+                                    HomePreferences.save("user_id", object.getString("userid"));
                                     HomePreferences.save("name", object.getString("name"));
                                     HomePreferences.save("email", object.getString("email"));
                                     HomePreferences.save("is_login", "1");
@@ -154,8 +155,15 @@ private void  validate(String Userid,String userPassword) {
             super.onPostExecute(response);
             if (response == 1) {
                 SnackResponse.success(errorMessage, MainActivity.this);
-             //   Intent nextIntent = new Intent(getApplicationContext(), Second2Activity.class);
-              //  startActivity(nextIntent);
+                // thread to add delay of 1sec before going to next screen
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent nextIntent = new Intent(getApplicationContext(), Second2Activity.class);
+                        startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
+                    }
+                }, 1000);
+
             } else {
                 if (errorMessage.trim().length() <= 0) {
                     errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
@@ -174,7 +182,7 @@ private void  validate(String Userid,String userPassword) {
 
 
         RequestBody requestBody = new FormBody.Builder()
-                .add("user_name", user_name)
+                .add("username", user_name)
                 .add("password", password)
                 .build();
         new Call().execute(requestBody);

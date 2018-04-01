@@ -17,7 +17,7 @@ import okhttp3.Response;
 class MakeCall {
 
     private static OkHttpClient client = new OkHttpClient();
-    private static final String DOMAIN = "http://10.4.0.152/ha";
+    private static final String DOMAIN = "http://192.168.1.230/";
 
     static String post(String url, RequestBody formBody, String TAG) throws Exception {
         Request request = new Request.Builder()

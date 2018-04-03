@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnregister:
-                Intent next = new Intent(this, Register.class);
+                Intent next = new Intent(this, RegisterActivity.class);
                 startActivity(next);
                 break;
             case R.id.btnLogin:
@@ -111,12 +111,13 @@ private void  validate(String Userid,String userPassword) {
         String errorMessage = "";
 
         @Override
+
         protected Integer doInBackground(RequestBody... requestBodies) {
             try {
                 //http://10.4.0.152/ha/login.php?user_name=girish12345&password=Test@1234
                 //{"login":[{"userid":"2","name":"Girish Mane","email":"girish@gmail.com","message":"Login Successfully.","status":1}]}
                 //{"login":[{"message":"Wrong user name password.","status":2}]}
-                String response = MakeCall.post("lo.php", requestBodies[0], Register.class.getSimpleName());
+                String response = MakeCall.post("lo.php", requestBodies[0], RegisterActivity.class.getSimpleName());
                 if (response != null) {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.has("login")) {
@@ -202,7 +203,7 @@ private void  validate(String Userid,String userPassword) {
 
     public void btnregister_onClick(View view) {
         Intent intentr;
-        intentr = new Intent(MainActivity.this, Register.class);
+        intentr = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(intentr);
     }
 }

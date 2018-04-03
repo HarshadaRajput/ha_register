@@ -1,10 +1,13 @@
 package com.example.lenovo.myapp2;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +17,10 @@ import okhttp3.RequestBody;
 
 
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private ProgressDialog pDialog;
-    JSONParser jsonParser = new JSONParser();
+    private String TAG = RegisterActivity.class.getSimpleName();
+
 
     private EditText Userid;
     private EditText Firstname;
@@ -25,8 +28,8 @@ public class Register extends AppCompatActivity {
     private EditText Email;
     private EditText Passwd;
 
-
-    private Button Register;
+    //Widget name should start with small caps if two words then second word first letter capital
+    private Button registerButton;
 
     /*private static String url_create_product = "https://api.androidhive.info/android_connect/create_product.php";
 
@@ -44,81 +47,118 @@ public class Register extends AppCompatActivity {
         Lastname = (EditText) findViewById(R.id.lastname);
         Email = (EditText) findViewById(R.id.email);
         Passwd = (EditText) findViewById(R.id.passwd);
-        Register = (Button) findViewById(R.id.btnregister);
-
-
-        // button click event
-        Register.setOnClickListener(new View.OnClickListener() {
-
+        registerButton = (Button) findViewById(R.id.btnregister);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // creating new product in background thread
-                new CreateNewUser() {
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        return null;
-                    }
-                }.execute();
+                register();
             }
         });
     }
 
     private class Call extends AsyncTask<RequestBody, Void, String> {
+
+
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(RegisterActivity.this);
+            pDialog.setMessage("Creating user..");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+
+        }
+
         @Override
         protected String doInBackground(RequestBody... requestBodies) {
             try {
-                MakeCall.post("re.php", requestBodies[0], Register.class.getSimpleName());
+                String response = MakeCall.post("re.php", requestBodies[0], RegisterActivity.class.getSimpleName());
+                Log.e(TAG, "res" + response);
             } catch (Exception e) {
+
                 e.printStackTrace();
 
             }
             return null;
         }
+
+       @Override
+       protected void onPostExecute(String file_url) {
+           // dismiss the dialog once done
+           pDialog.dismiss();
+
+
+       }
+
+
+      /* protected void onPostExecute(String file_url,Integer response) {
+           pDialog.dismiss();
+           super.onPostExecute(String.valueOf(response));
+
+
+           String errorMessage = null;
+           if (response == 1) {
+               SnackResponse.success(errorMessage, RegisterActivity.this);
+               // thread to add delay of 1sec before going to next screen
+           } else {
+               if (errorMessage.trim().length() <= 0) {
+                   errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
+               }
+               SnackResponse.failed(errorMessage, RegisterActivity.this);
+           }
+       }*/
     }
 
-    /**
-     * Background Async Task to Create new product
-     */
-    abstract class CreateNewUser extends AsyncTask<String, String, String> {
+
+
+        /**
+         * Background Async Task to Create new product
+         */
+        //abstract class CreateNewUser extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
          */
-        @Override
+       /* @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(Register.this);
+            pDialog = new ProgressDialog(RegisterActivity.this);
             pDialog.setMessage("Creating Product..");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
         }
     }
+*/
 
-    /**
-     * Creating product
-     */
-    protected void doInBackground(String... args) {
-        String userid = Userid.getText().toString();
-        String firstname = Firstname.getText().toString();
-        String lastname = Lastname.getText().toString();
-        String email = Email.getText().toString();
-        String passwd = Passwd.getText().toString();
+        /**
+         * Creating product
+         */
+        private void register() {
+            String userid = Userid.getText().toString();
+            String firstname = Firstname.getText().toString();
+            String lastname = Lastname.getText().toString();
+            String email = Email.getText().toString();
+            String passwd = Passwd.getText().toString();
 
-        RequestBody requestBody = new FormBody.Builder()
-                .add("email", email)
-                .add("password", passwd)
-                .add("firstname", firstname)
-                .add("lastname", lastname)
-                .add("userid", userid)
-
-
-                .build();
-        new Call().execute(requestBody);
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("username", userid)
+                    .add("firstname", firstname)
+                    .add("email", email)
+                    .add("lastname", lastname)
+                    .add("password", passwd)
 
 
+                    .build();
+            new Call().execute(requestBody);
+
+
+        }
     }
-}
 
 
 
@@ -144,7 +184,7 @@ public class Register extends AppCompatActivity {
 
                 if (success == 1) {
                     // successfully created product
-                    Intent i = new Intent(getApplicationContext(), Register.class);
+                    Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
                     startActivity(i);
 
                     // closing this screen

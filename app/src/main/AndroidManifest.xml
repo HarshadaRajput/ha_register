@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Second2Activity" />
-        <activity android:name=".Register" />
+        <activity android:name=".RegisterActivity" />
     </application>
 
 </manifest>

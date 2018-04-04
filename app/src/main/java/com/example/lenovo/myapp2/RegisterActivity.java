@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -56,10 +59,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private class Call extends AsyncTask<RequestBody, Void, String> {
+    private class Call extends AsyncTask<RequestBody, Void, Integer> {
 
 
-        private ProgressDialog pDialog;
+       /* private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
@@ -71,28 +74,84 @@ public class RegisterActivity extends AppCompatActivity {
             pDialog.show();
 
 
-        }
+        }*/
 
         @Override
-        protected String doInBackground(RequestBody... requestBodies) {
+        protected Integer doInBackground(RequestBody... requestBodies) {
             try {
                 String response = MakeCall.post("re.php", requestBodies[0], RegisterActivity.class.getSimpleName());
                 Log.e(TAG, "res" + response);
+                if (response != null) {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.has("register")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("register");
+                        if (jsonArray.length() > 0) {
+                            JSONObject object = jsonArray.getJSONObject(0);
+                            if (object.has("status")) {
+                                int status = object.getInt("status");
+                                String errorMessage;
+                                if (status == 1) {
+                                    HomePreferences.save("user_id", object.getString("userid"));
+                                    HomePreferences.save("name", object.getString("name"));
+                                    HomePreferences.save("email", object.getString("email"));
+
+
+                                    errorMessage = getApplicationContext().getResources().getString(R.string.successful);
+                                } else {
+                                    errorMessage = object.getString("message");
+                                }
+                                return status;
+                            }
+                        }
+                        return 11;
+                    } else {
+                        return 11;
+                    }
+                }
             } catch (Exception e) {
+                e.printStackTrace();
+                return 12;
+            }
+            return 12;
+        }
+
+           /* } catch (Exception e) {
 
                 e.printStackTrace();
 
             }
             return null;
-        }
+        }*/
 
        @Override
-       protected void onPostExecute(String file_url) {
+       protected void onPostExecute(Integer response) {
+           //String file_url;
+           super.onPostExecute(response);
            // dismiss the dialog once done
-           pDialog.dismiss();
+           //pDialog.dismiss();
 
+           String errorMessage = "";
+           if (response == 1) {
+               SnackResponse.success(errorMessage, RegisterActivity.this);
+               // thread to add delay of 1sec before going to next screen
+               new Handler().postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       Intent nextIntent = new Intent(getApplicationContext(), MainActivity.class);
+                       startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
+                   }
+               }, 10000);
 
+           } else {
+               if (errorMessage.trim().length() <= 0) {
+                   errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
+               }
+               SnackResponse.failed(errorMessage, RegisterActivity.this);
+           }  //finish();
        }
+
+
+
 
 
       /* protected void onPostExecute(String file_url,Integer response) {

@@ -6,25 +6,30 @@
     android:gravity="top|center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/activity_vertical_margin"
-    tools:context="com.example.lenovo.myapp2.MainActivity">
+    tools:context="com.example.lenovo.myapp2.LoginActivity">
 
-    <TextView
-        android:id="@+id/tvconnect"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/login_wifi_warning_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/connect_to_appropriate_wifi_for_automation"
-        android:textSize="14sp" />
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnWifi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvconnect"
-        android:layout_centerHorizontal="true"
-        android:onClick="btnWifi_onClick"
-        android:text="@string/start_wifi"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_to_appropriate_wifi_for_automation"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnWifi_onClick"
+            android:text="@string/start_wifi"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="@dimen/nav_header_height"
@@ -33,8 +38,29 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:text="@string/login"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
         <EditText
-            android:id="@+id/Userid"
+            android:id="@+id/server_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/server_address"
+            android:inputType="textPersonName"
+            android:textColor="@color/text_color_primary"
+            android:textColorHint="@color/text_color_ternary"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -45,7 +71,7 @@
             android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/user_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -58,19 +84,14 @@
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/login"
             android:textAllCaps="true"
-            android:textSize="14sp" />
-        <!--
-                <Button
-                    android:id="@+id/btnregister"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnregister_onClick"
-                    android:text="@strRegisterActivityster"
-                    android:textSize="14sp" />-->
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btnregister"

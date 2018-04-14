@@ -2,11 +2,15 @@ package com.example.lenovo.myapp2;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +18,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Second2Activity extends AppCompatActivity implements View.OnClickListener {
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+
+public class VoiceActivity extends AppCompatActivity implements View.OnClickListener {
 
     private boolean recordOn = false;
 
@@ -24,7 +31,9 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second2);
+        setContentView(R.layout.voice_activity_layout);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         resultTEXT = (TextView) findViewById(R.id.TVresult2);
 
@@ -32,16 +41,32 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
         recordButton.setOnClickListener(this);
     }
 
-/*    public void onButtonClick(View v) {
-        if (v.getId() == R.id.imageButton) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        HomePreferences.initialize(getApplicationContext());
+    }
 
-            promptSpeechInput();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.voice_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                HomePreferences.save("is_login", "0");
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            default:
+                break;
         }
+        return true;
+    }
 
-
-    }*/
 
     private void toggleRecord() {
         if (recordOn) {
@@ -55,7 +80,7 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
 
     public void promptSpeechInput() {
         if (recordOn) {
-            Toast.makeText(Second2Activity.this, "Already Recording....", Toast.LENGTH_LONG).show();
+            Toast.makeText(VoiceActivity.this, "Already Recording....", Toast.LENGTH_LONG).show();
             return;
         }
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -67,7 +92,7 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
             startActivityForResult(i, 100);
             toggleRecord();
         } catch (ActivityNotFoundException a) {
-            Toast.makeText(Second2Activity.this, "Sorry! your device doesn't support speech language", Toast.LENGTH_LONG).show();
+            Toast.makeText(VoiceActivity.this, "Sorry! your device doesn't support speech language", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -86,11 +111,34 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
         if (code <= 0) {
             stringBuilder.append("Invalid Voice Command");
         } else {
+            executeCommand(code);
             stringBuilder.append("Valid Voice Command");
         }
         return stringBuilder.toString();
     }
 
+    private void executeCommand(int code) {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("action", "" + code)
+                .add("userid", HomePreferences.get("user_id"))
+                .build();
+        new CallOperation().execute(requestBody);
+    }
+
+    private class CallOperation extends AsyncTask<RequestBody, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(RequestBody... requestBodies) {
+            try {
+                String response = MakeCall.post("op.php", requestBodies[0], VoiceActivity.class
+                        .getSimpleName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent i) {
@@ -99,7 +147,7 @@ public class Second2Activity extends AppCompatActivity implements View.OnClickLi
             case 100:
                 if (resultCode == RESULT_OK && i != null) {
                     ArrayList<String> result = i.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    Log.e(Second2Activity.class.getSimpleName(), "result: " + result);
+                    Log.e(VoiceActivity.class.getSimpleName(), "result: " + result);
                     resultTEXT.setText(output(result.get(0)));
                     toggleRecord();
                 }

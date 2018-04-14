@@ -1,6 +1,10 @@
 package com.example.lenovo.myapp2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +21,9 @@ import org.json.JSONObject;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText userIdBox, passwordBox;
+    private EditText usernameBox, passwordBox, serverBox;
     private TextView Info, registerLink;
     private Button loginButton;
     private int counter = 5;
@@ -27,10 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_activity_layout);
 
-        userIdBox = (EditText) findViewById(R.id.Userid);
-        passwordBox = (EditText) findViewById(R.id.etPassword);
+        serverBox = (EditText) findViewById(R.id.server_address);
+        usernameBox = (EditText) findViewById(R.id.user_name);
+        passwordBox = (EditText) findViewById(R.id.user_password);
+
         Info = (TextView) findViewById(R.id.tvInfo);
         loginButton = (Button) findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(this);
@@ -40,17 +46,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        userIdBox.setText("girish");
-        passwordBox.setText("123456");
-
         //Shared preferences to save data
         HomePreferences.initialize(getApplicationContext());
+        serverBox.setText("http://10.42.0.77/");
+        usernameBox.setText("girish");
+        passwordBox.setText("123456");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkWifi();
+        registerReceiver(WifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+    }
+
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(WifiReceiver);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnregister:
+                String serverAddress = serverBox.getText().toString().trim();
+                if (serverAddress.length() <= 0) {
+                    serverBox.setError("Enter Server Address");
+                    return;
+                }
+                HomePreferences.save("server", serverAddress);
                 Intent next = new Intent(this, RegisterActivity.class);
                 startActivity(next);
                 break;
@@ -60,53 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Info.setText("No. Of Attempts Remaining : 5");
-
-    /* Login.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            validate(Userid.getText().toString(),Password.getText().toString());
-        }
-    });
-}
-private void  validate(String Userid,String userPassword) {
-    if ((Userid.equals("Harshada")) && (userPassword.equals("1234"))) {
-        Intent intent = new Intent(MainActivity.this, Second2Activity.class);
-        startActivity(intent);
-    } else {
-        if ((Userid.equals("Karuna")) && (userPassword.equals("1234"))) {
-            Intent intent = new Intent(MainActivity.this, Second2Activity.class);
-            startActivity(intent);
-        } else {
-            if ((Userid.equals("Dipika")) && (userPassword.equals("1234"))) {
-                Intent intent = new Intent(MainActivity.this, Second2Activity.class);
-                startActivity(intent);
-            } else {
-                if ((Userid.equals("Punit")) && (userPassword.equals("1234"))) {
-                    Intent intent = new Intent(MainActivity.this, Second2Activity.class);
-                    startActivity(intent);
-                }
-                else {
-                    counter--;
-
-                    Info.setText("No. Of Attempts Remaining :  " + String.valueOf(counter));
-
-                    if (counter == 0) {
-                        Login.setEnabled(false);
-                    }
-                }
-            }
-        }
-    }
-}
-*/
-
     /*
-    * 1: success
-    * 2: failed
-    * 11: network error
-    * 12: internal error
-    * */
+     * 1: success
+     * 2: failed
+     * 11: network error
+     * 12: internal error
+     * */
     private class Call extends AsyncTask<RequestBody, Void, Integer> {
         String errorMessage = "";
 
@@ -155,12 +138,13 @@ private void  validate(String Userid,String userPassword) {
         protected void onPostExecute(Integer response) {
             super.onPostExecute(response);
             if (response == 1) {
-                SnackResponse.success(errorMessage, MainActivity.this);
+                HomePreferences.save("is_login", "1");
+                SnackResponse.success(errorMessage, LoginActivity.this);
                 // thread to add delay of 1sec before going to next screen
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent nextIntent = new Intent(getApplicationContext(), Second2Activity.class);
+                        Intent nextIntent = new Intent(getApplicationContext(), VoiceActivity.class);
                         startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
                     }
                 }, 1000);
@@ -169,16 +153,20 @@ private void  validate(String Userid,String userPassword) {
                 if (errorMessage.trim().length() <= 0) {
                     errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
                 }
-                SnackResponse.failed(errorMessage, MainActivity.this);
+                SnackResponse.failed(errorMessage, LoginActivity.this);
             }
         }
     }
 
     private void login() {
-        EditText userNameBox = (EditText) findViewById(R.id.Userid);
-        EditText passwordBox = (EditText) findViewById(R.id.etPassword);
+        String serverAddress = serverBox.getText().toString().trim();
+        if (serverAddress.length() <= 0) {
+            serverBox.setError("Enter Server Address");
+            return;
+        }
+        HomePreferences.save("server", serverAddress);
 
-        String user_name = userNameBox.getText().toString().trim();
+        String user_name = usernameBox.getText().toString().trim();
         String password = passwordBox.getText().toString().trim();
 
 
@@ -194,6 +182,41 @@ private void  validate(String Userid,String userPassword) {
 
     }
 
+    private BroadcastReceiver WifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int WifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
+                    WifiManager.WIFI_STATE_UNKNOWN);
+
+            switch (WifiState) {
+                case WifiManager.WIFI_STATE_ENABLED:
+                    checkWifi();
+                    break;
+                case WifiManager.WIFI_STATE_ENABLING:
+                    break;
+                case WifiManager.WIFI_STATE_DISABLED:
+                    checkWifi();
+                    break;
+                case WifiManager.WIFI_STATE_DISABLING:
+                    break;
+                case WifiManager.WIFI_STATE_UNKNOWN: {
+                }
+                break;
+
+            }
+        }
+    };
+
+    private void checkWifi() {
+        WifiManager wifi = (WifiManager) this.getApplicationContext().getSystemService(Context
+                .WIFI_SERVICE);
+        assert wifi != null;
+        if (!wifi.isWifiEnabled()) {
+            findViewById(R.id.login_wifi_warning_layout).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.login_wifi_warning_layout).setVisibility(View.GONE);
+        }
+    }
 
     public void btnWifi_onClick(View view) {
         Intent intentWifi;
@@ -202,9 +225,8 @@ private void  validate(String Userid,String userPassword) {
     }
 
     public void btnregister_onClick(View view) {
-        Intent intentr;
-        intentr = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intentr);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 }
 

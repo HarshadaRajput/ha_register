@@ -28,6 +28,11 @@ public class HomePreferences {
         editor.commit();
     }
 
+    public static void save(String key, boolean value) {
+        editor.putBoolean(key, value);
+        editor.commit();
+    }
+
     public static void save(String key, Integer value) {
         save(key, String.valueOf(value));
     }

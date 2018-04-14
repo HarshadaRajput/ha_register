@@ -2,8 +2,10 @@ package com.example.lenovo.myapp2;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,38 +21,27 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
 
-
 public class RegisterActivity extends AppCompatActivity {
 
     private String TAG = RegisterActivity.class.getSimpleName();
 
-
-    private EditText Userid;
-    private EditText Firstname;
-    private EditText Lastname;
-    private EditText Email;
-    private EditText Passwd;
-
-    //Widget name should start with small caps if two words then second word first letter capital
-    private Button registerButton;
-
-    /*private static String url_create_product = "https://api.androidhive.info/android_connect/create_product.php";
-
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";*/
-
+    private EditText userNameBox, firstNameBox, lastNameBox, emailBox;
+    private TextInputEditText passwordBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Userid = (EditText) findViewById(R.id.userid);
-        Firstname = (EditText) findViewById(R.id.firstname);
-        Lastname = (EditText) findViewById(R.id.lastname);
-        Email = (EditText) findViewById(R.id.email);
-        Passwd = (EditText) findViewById(R.id.passwd);
-        registerButton = (Button) findViewById(R.id.btnregister);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        userNameBox = (EditText) findViewById(R.id.userid);
+        firstNameBox = (EditText) findViewById(R.id.firstname);
+        lastNameBox = (EditText) findViewById(R.id.lastname);
+        emailBox = (EditText) findViewById(R.id.email);
+        passwordBox = (TextInputEditText) findViewById(R.id.passwd);
+
+        Button registerButton = (Button) findViewById(R.id.btnregister);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,10 +50,19 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userNameBox.setText("punit");
+        emailBox.setText("shuklapunit9@gmail.com");
+        firstNameBox.setText("punit");
+        lastNameBox.setText("shukla");
+        passwordBox.setText("123456789");
+    }
+
     private class Call extends AsyncTask<RequestBody, Void, Integer> {
-
-
-       /* private ProgressDialog pDialog;
+        private ProgressDialog pDialog;
+        private String errorMessage = "Something went wrong!";
 
         @Override
         protected void onPreExecute() {
@@ -72,30 +72,25 @@ public class RegisterActivity extends AppCompatActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
-
-        }*/
+        }
 
         @Override
         protected Integer doInBackground(RequestBody... requestBodies) {
             try {
                 String response = MakeCall.post("re.php", requestBodies[0], RegisterActivity.class.getSimpleName());
-                Log.e(TAG, "res" + response);
+                //{"register":[{"message":"Register Successfully.","status":1}]}
                 if (response != null) {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.has("register")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("register");
+                        Log.e(TAG, "" + jsonArray);
                         if (jsonArray.length() > 0) {
                             JSONObject object = jsonArray.getJSONObject(0);
+                            Log.e(TAG, "" + object);
                             if (object.has("status")) {
                                 int status = object.getInt("status");
-                                String errorMessage;
+                                Log.e(TAG, "" + status);
                                 if (status == 1) {
-                                    HomePreferences.save("user_id", object.getString("userid"));
-                                    HomePreferences.save("name", object.getString("name"));
-                                    HomePreferences.save("email", object.getString("email"));
-
-
                                     errorMessage = getApplicationContext().getResources().getString(R.string.successful);
                                 } else {
                                     errorMessage = object.getString("message");
@@ -115,161 +110,57 @@ public class RegisterActivity extends AppCompatActivity {
             return 12;
         }
 
-           /* } catch (Exception e) {
-
-                e.printStackTrace();
-
+        @Override
+        protected void onPostExecute(Integer response) {
+            super.onPostExecute(response);
+            if (pDialog != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pDialog.dismiss();
+                    }
+                }, 3000);
             }
-            return null;
-        }*/
-
-       @Override
-       protected void onPostExecute(Integer response) {
-           //String file_url;
-           super.onPostExecute(response);
-           // dismiss the dialog once done
-           //pDialog.dismiss();
-
-           String errorMessage = "";
-           if (response == 1) {
-               SnackResponse.success(errorMessage, RegisterActivity.this);
-               // thread to add delay of 1sec before going to next screen
-               new Handler().postDelayed(new Runnable() {
-                   @Override
-                   public void run() {
-                       Intent nextIntent = new Intent(getApplicationContext(), MainActivity.class);
-                       startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
-                   }
-               }, 10000);
-
-           } else {
-               if (errorMessage.trim().length() <= 0) {
-                   errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
-               }
-               SnackResponse.failed(errorMessage, RegisterActivity.this);
-           }  //finish();
-       }
-
-
-
-
-
-      /* protected void onPostExecute(String file_url,Integer response) {
-           pDialog.dismiss();
-           super.onPostExecute(String.valueOf(response));
-
-
-           String errorMessage = null;
-           if (response == 1) {
-               SnackResponse.success(errorMessage, RegisterActivity.this);
-               // thread to add delay of 1sec before going to next screen
-           } else {
-               if (errorMessage.trim().length() <= 0) {
-                   errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
-               }
-               SnackResponse.failed(errorMessage, RegisterActivity.this);
-           }
-       }*/
-    }
-
-
-
-        /**
-         * Background Async Task to Create new product
-         */
-        //abstract class CreateNewUser extends AsyncTask<String, String, String> {
-
-        /**
-         * Before starting background thread Show Progress Dialog
-         */
-       /* @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(RegisterActivity.this);
-            pDialog.setMessage("Creating Product..");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-    }
-*/
-
-        /**
-         * Creating product
-         */
-        private void register() {
-            String userid = Userid.getText().toString();
-            String firstname = Firstname.getText().toString();
-            String lastname = Lastname.getText().toString();
-            String email = Email.getText().toString();
-            String passwd = Passwd.getText().toString();
-
-            RequestBody requestBody = new FormBody.Builder()
-                    .add("username", userid)
-                    .add("firstname", firstname)
-                    .add("email", email)
-                    .add("lastname", lastname)
-                    .add("password", passwd)
-
-
-                    .build();
-            new Call().execute(requestBody);
-
-
-        }
-    }
-
-
-
-            /*// Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Userid", userid));
-            params.add(new BasicNameValuePair("Firstname", firstname));
-            params.add(new BasicNameValuePair("Lastname", lastname));
-            params.add(new BasicNameValuePair("Email", email));
-            params.add(new BasicNameValuePair("Passwd", passwd));
-
-
-            // getting JSON Object
-            // Note that create product url accepts POST method
-            JSONObject json = ((Object) jsonParser).makeHttpRequest(url_create_product, "POST", params);
-
-            // check log cat fro response
-            Log.d("Create Response", json.toString());
-
-            // check for success tag
-            try {
-                int success = json.getInt(TAG_SUCCESS);
-
-                if (success == 1) {
-                    // successfully created product
-                    Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-                    startActivity(i);
-
-                    // closing this screen
-                    finish();
-                } else {
-                    // failed to create product
+            if (response == 1) {
+                SnackResponse.success(errorMessage, RegisterActivity.this);
+                // thread to add delay of 1sec before going to next screen
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent nextIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
+                        finish();
+                    }
+                }, 3000);
+            } else {
+                if (errorMessage.trim().length() <= 0) {
+                    errorMessage = GetResponses_.getStatusMessage(response, getApplicationContext());
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                SnackResponse.failed(errorMessage, RegisterActivity.this);
             }
-
-            return null;
-        }
-
-        /**
-         * After completing background task Dismiss the progress dialog
-         **/
-       /* protected void onPostExecute(String file_url) {
-            // dismiss the dialog once done
-            pDialog.dismiss();
         }
     }
-}*/
 
+    /**
+     * Creating product
+     */
+    private void register() {
+        String user_name = userNameBox.getText().toString();
+        String first_name = firstNameBox.getText().toString();
+        String last_name = lastNameBox.getText().toString();
+        String email = emailBox.getText().toString();
+        String password = passwordBox.getText().toString();
 
-
+        RequestBody requestBody = new FormBody.Builder()
+                .add("username", user_name)
+                .add("firstname", first_name)
+                .add("lastname", last_name)
+                .add("email", email)
+                .add("password", password)
+                .build();
+        new Call().execute(requestBody);
+    }
+}
 
 
 

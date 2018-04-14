@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">myapp2</string>
+    <string name="app_name">Home Control</string>
     <string name="name">NAME</string>
     <string name="login">Login</string>
     <string name="attempts_remaining">Attempts Remaining</string>
@@ -13,6 +13,7 @@
     <!-- <string name="userid">Username</string>-->
     <string name="firstname">First name</string>
     <string name="email">Email</string>
+    <string name="logout">Logout</string>
     <string name="lastname">Last name</string>
 
     <string name="register">Register</string>
@@ -21,6 +22,7 @@
 
     <string name="successful">Successful</string>
     <string name="failed">Failed</string>
+    <string name="server_address">Server Address</string>
 
     <string name="internal_error">Internal Error</string>
     <string name="network_error">Network Error</string>

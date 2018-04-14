@@ -118,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void run() {
                         pDialog.dismiss();
                     }
-                }, 3000);
+                }, 1500);
             }
             if (response == 1) {
                 SnackResponse.success(errorMessage, RegisterActivity.this);

@@ -68,16 +68,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnregister:
-                String serverAddress = serverBox.getText().toString().trim();
-                if (serverAddress.length() <= 0) {
-                    serverBox.setError("Enter Server Address");
-                    return;
-                }
-                HomePreferences.save("server", serverAddress);
-                Intent next = new Intent(this, RegisterActivity.class);
-                startActivity(next);
-                break;
             case R.id.btnLogin:
                 login();
                 break;
@@ -226,6 +216,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void btnregister_onClick(View view) {
+        String serverAddress = serverBox.getText().toString().trim();
+        if (serverAddress.length() <= 0) {
+            serverBox.setError("Enter Server Address");
+            return;
+        }
+        HomePreferences.save("server", serverAddress);
+
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
     }

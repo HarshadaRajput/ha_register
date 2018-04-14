@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,37 +50,53 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/server_address"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/server_address"
-            android:inputType="textPersonName"
-            android:textColor="@color/text_color_primary"
-            android:textColorHint="@color/text_color_ternary"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/user_name"
-            android:inputType="textPersonName"
-            android:textColor="@color/text_color_primary"
-            android:textColorHint="@color/text_color_ternary"
-            android:textSize="14sp" />
+            <EditText
+                android:id="@+id/server_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/server_address"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_color_primary"
+                android:textColorHint="@color/text_color_ternary"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-            android:id="@+id/user_password"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/user_name"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_color_primary"
+                android:textColorHint="@color/text_color_ternary"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="@dimen/nav_header_height"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textColor="@color/text_color_primary"
-            android:textColorHint="@color/text_color_ternary"
-            android:textSize="14sp" />
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/user_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/text_color_primary"
+                android:textColorHint="@color/text_color_ternary"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/btnLogin"

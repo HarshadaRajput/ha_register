@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -101,12 +103,12 @@ public class VoiceActivity extends AppCompatActivity implements View.OnClickList
         stringBuilder.append("Word: ");
         stringBuilder.append(word);
         stringBuilder.append("\n");
-        stringBuilder.append("Code Word: ");
-        stringBuilder.append(MakeCode.getCode(word));
-        stringBuilder.append("\n");
-        stringBuilder.append("Command Code: ");
+        //      stringBuilder.append("Code Word: ");
+        //     stringBuilder.append(MakeCode.getCode(word));
+//        stringBuilder.append("\n");
+//        stringBuilder.append("Command Code: ");
         int code = Dictionary.getCode(MakeCode.getCode(word));
-        stringBuilder.append(code);
+        //  stringBuilder.append(code);
         stringBuilder.append("\n");
         if (code <= 0) {
             stringBuilder.append("Invalid Voice Command");
@@ -126,17 +128,39 @@ public class VoiceActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private class CallOperation extends AsyncTask<RequestBody, Void, Integer> {
+        String errorMessage = "Something went wrong";
 
         @Override
         protected Integer doInBackground(RequestBody... requestBodies) {
+            int result = 11;
             try {
-                String response = MakeCall.post("op.php", requestBodies[0], VoiceActivity.class
-                        .getSimpleName());
+                String response = MakeCall.post("op.php", requestBodies[0], VoiceActivity.class.getSimpleName());
+                //{"status":"1","action":2,"message":"All Off"}
+                if (response != null) {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.has("status")) {
+                        result = jsonObject.getInt("status");
+                        if (result == 1) {
+                            errorMessage = jsonObject.getString("message");
+                        } else {
+                            errorMessage = jsonObject.getString("message");
+                        }
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return result;
+        }
 
-            return null;
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+            if (integer == 1) {
+                SnackResponse.success(errorMessage, VoiceActivity.this);
+            } else {
+                SnackResponse.failed(errorMessage, VoiceActivity.this);
+            }
         }
     }
 

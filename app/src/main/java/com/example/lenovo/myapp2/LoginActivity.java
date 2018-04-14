@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         HomePreferences.initialize(getApplicationContext());
         serverBox.setText("http://10.42.0.77/");
         usernameBox.setText("girish");
-        passwordBox.setText("123456");
+        passwordBox.setText("123456789");
     }
 
     @Override
@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void run() {
                         Intent nextIntent = new Intent(getApplicationContext(), VoiceActivity.class);
                         startActivity(nextIntent, ActivityTransition.moveToNextAnimation(getApplicationContext()));
+                        finish();
                     }
                 }, 1000);
 

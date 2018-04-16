@@ -124,13 +124,4 @@
             android:textStyle="bold|italic" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/attempts_remaining"
-        android:textColor="@color/text_color_secondary"
-        android:textSize="14sp" />
 </RelativeLayout>

@@ -48,9 +48,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         //Shared preferences to save data
         HomePreferences.initialize(getApplicationContext());
-        serverBox.setText("http://10.42.0.77/");
-        usernameBox.setText("girish");
-        passwordBox.setText("123456789");
+        serverBox.setText("http://Your Device IP/");
+        usernameBox.setText("");//girish
+        passwordBox.setText("");//123456789
     }
 
     @Override

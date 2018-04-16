@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         serverBox = (EditText) findViewById(R.id.server_address);
         usernameBox = (EditText) findViewById(R.id.user_name);
         passwordBox = (EditText) findViewById(R.id.user_password);
-
-        Info = (TextView) findViewById(R.id.tvInfo);
         loginButton = (Button) findViewById(R.id.btnLogin);
         loginButton.setOnClickListener(this);
         registerLink = (TextView) findViewById(R.id.btnregister);

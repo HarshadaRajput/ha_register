@@ -89,7 +89,7 @@ class Dictionary {
         map.put(" ", 59);
         map.put(" ", 60);
 
-        
+
 
         return map;
 

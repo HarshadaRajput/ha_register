@@ -73,7 +73,7 @@ class Dictionary {
 
         map.put("fan_on_and_red_light_on", 47);
         map.put("fan_on_and_yellow_light_on", 48);
-        map.put("fan_on_and_turn_blue_on", 49);
+        map.put("fan_on_and_blue_light_on", 49);
         map.put("fan_on_and_red_light_off", 50);
         map.put("fan_on_and_yellow_light_off", 51);
         map.put("fan_on_and_blue_light_off", 52);

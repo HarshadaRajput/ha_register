@@ -24,6 +24,7 @@ class Dictionary {
         map.put("blue_light_off", 8);
         map.put("fan_on", 9);
         map.put("fan_off", 10);
+        map.put("fan_of", 10);
 
 
         map.put("red_light_on_and_yellow_light_on", 11);
@@ -32,6 +33,7 @@ class Dictionary {
         map.put("red_light_on_and_yellow_light_off", 14);
         map.put("red_light_on_and_blue_light_off", 15);
         map.put("red_light_on_and_fan_off", 16);
+        map.put("red_light_on_and_fan_of", 16);
 
         map.put("red_light_off_and_yellow_light_on", 17);
         map.put("red_light_off_and_blue_light_on", 18);
@@ -39,6 +41,7 @@ class Dictionary {
         map.put("red_light_off_and_yellow_light_off", 20);
         map.put("red_light_off_and_blue_light_off", 21);
         map.put("red_light_off_and_fan_off", 22);
+        map.put("red_light_off_and_fan_of", 22);
 
 
         map.put("yellow_light_on_and_red_light_on", 23);
@@ -47,6 +50,7 @@ class Dictionary {
         map.put("yellow_light_on_and_red_light_off", 26);
         map.put("yellow_light_on_and_blue_light_off", 27);
         map.put("yellow_light_on_and_fan_off", 28);
+        map.put("yellow_light_on_and_fan_of", 28);
 
         map.put("yellow_light_off_and_red_light_on", 29);
         map.put("yellow_light_off_and_blue_light_on", 30);
@@ -54,6 +58,7 @@ class Dictionary {
         map.put("yellow_light_off_and_red_light_off", 32);
         map.put("yellow_light_off_and_blue_light_off", 33);
         map.put("yellow_light_off_and_fan_off", 34);
+        map.put("yellow_light_off_and_fan_of", 34);
 
 
         map.put("blue_light_on_and_red_light_on", 35);
@@ -62,6 +67,8 @@ class Dictionary {
         map.put("blue_light_on_and_red_light_off", 38);
         map.put("blue_light_on_and_yellow_light_off", 39);
         map.put("blue_light_on_and_fan_off", 40);
+        map.put("blue_light_on_and_fan_of", 40);
+
 
         map.put("blue_light_off_and_red_light_on", 41);
         map.put("blue_light_off_and_yellow_light_on", 42);
@@ -69,6 +76,8 @@ class Dictionary {
         map.put("blue_light_off_and_red_light_off", 44);
         map.put("blue_light_off_and_yellow_light_off", 45);
         map.put("blue_light_off_and_fan_off", 46);
+        map.put("blue_light_off_and_fan_of", 46);
+
 
 
         map.put("fan_on_and_red_light_on", 47);
@@ -84,6 +93,13 @@ class Dictionary {
         map.put("fan_off_and_red_light_off", 56);
         map.put("fan_off_and_yellow_light_off", 57);
         map.put("fan_off_and_blue_light_off", 58);
+
+        map.put("fan_of_and_red_light_on", 53);
+        map.put("fan_of_and_yellow_light_on", 54);
+        map.put("fan_of_and_blue_light_on", 55);
+        map.put("fan_of_and_red_light_off", 56);
+        map.put("fan_of_and_yellow_light_off", 57);
+        map.put("fan_of_and_blue_light_off", 58);
 
 
         map.put(" ", 59);

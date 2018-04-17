@@ -52,11 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        userNameBox.setText("punit");
-        emailBox.setText("shuklapunit9@gmail.com");
-        firstNameBox.setText("punit");
-        lastNameBox.setText("shukla");
-        passwordBox.setText("123456789");
+        userNameBox.setText("");//punit
+        emailBox.setText("");//shuklapunit9@gmail.com
+        firstNameBox.setText("");//punit
+        lastNameBox.setText("");//shukla
+        passwordBox.setText("");//123456789
     }
 
     private class Call extends AsyncTask<RequestBody, Void, Integer> {
